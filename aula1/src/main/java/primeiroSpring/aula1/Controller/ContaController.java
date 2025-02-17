@@ -34,7 +34,7 @@ public class ContaController {
     }
 
     @GetMapping("/{id}")
-    public Conta nuscarContaPorId(@PathVariable Integer id){
+    public Conta buscarContaPorId(@PathVariable Integer id){
         return contaService.buscarConta(id);
     }
 
@@ -51,6 +51,6 @@ public class ContaController {
 
     @PatchMapping("/{id}")
     public Conta alterarLimite(@RequestParam Double limite, @PathVariable Integer id){
-        return contaService.alterarLimite(id,limite);
+        return contaService.alterarLimite(id, limite);
     }
 }
