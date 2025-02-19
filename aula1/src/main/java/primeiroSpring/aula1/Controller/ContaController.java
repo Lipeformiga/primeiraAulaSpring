@@ -1,10 +1,14 @@
 package primeiroSpring.aula1.Controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-import primeiroSpring.aula1.model.Conta;
+import primeiroSpring.aula1.model.dto.ContaPostRequestDTO;
+import primeiroSpring.aula1.model.entity.Conta;
 import primeiroSpring.aula1.service.ContaService;
 
 import java.util.List;
@@ -22,15 +26,27 @@ public class ContaController {
     public String metodoGet(){
         return "Hello World";
     }
+
     @PostMapping
-    public String cadastrarConta(@RequestBody Conta conta){
-        contaService.criarConta(conta);
+    public String cadastrarConta(@RequestBody @Valid ContaPostRequestDTO contaDTO){
+        contaService.criarConta(contaDTO);
         return "Conta cadastrada com sucesso!";
     }
 
     @GetMapping
     public List<Conta> listarContas(){
         return contaService.buscarContas();
+    }
+
+    @GetMapping("/page")
+    public Page<Conta> listarContasPage(
+            @PageableDefault(
+                    size = 20,
+                    sort = "saldo",
+                    direction = Sort.Direction.DESC,
+                    page = 0
+            ) Pageable pageable){
+        return contaService.buscarContas(pageable);
     }
 
     @GetMapping("/{id}")

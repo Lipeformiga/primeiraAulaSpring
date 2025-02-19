@@ -1,8 +1,11 @@
 package primeiroSpring.aula1.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import primeiroSpring.aula1.model.Conta;
+import primeiroSpring.aula1.model.dto.ContaPostRequestDTO;
+import primeiroSpring.aula1.model.entity.Conta;
 import primeiroSpring.aula1.repository.ContaRepository;
 
 import java.util.List;
@@ -14,7 +17,8 @@ public class ContaService {
     private ContaRepository contaRepository;
 
 
-    public void criarConta(Conta conta) {
+    public void criarConta(ContaPostRequestDTO contaDTO) {
+        Conta conta = contaDTO.convert();
         contaRepository.save(conta);
     }
 
@@ -22,9 +26,14 @@ public class ContaService {
         return contaRepository.findAll();
     }
 
+    public Page<Conta> buscarContas(Pageable pageable) {
+        return contaRepository.findAll(pageable);
+    }
+
     public Conta buscarConta(Integer id) {
         return contaRepository.findById(id).get();
     }
+
 
     public void deletarConta(Integer id) {
         contaRepository.deleteById(id);
