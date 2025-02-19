@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import primeiroSpring.aula1.model.dto.ContaPostRequestDTO;
 import primeiroSpring.aula1.model.entity.Conta;
@@ -28,9 +30,11 @@ public class ContaController {
     }
 
     @PostMapping
-    public String cadastrarConta(@RequestBody @Valid ContaPostRequestDTO contaDTO){
-        contaService.criarConta(contaDTO);
-        return "Conta cadastrada com sucesso!";
+    public ResponseEntity<Conta> cadastrarConta(@RequestBody @Valid ContaPostRequestDTO contaDTO){
+        // tirar duvida se colocar o @HttpStatus la em cima é igual a como ta ai e se colocar
+        // o httpStatus em cima sempre daria aquele status
+        Conta conta = contaService.criarConta(contaDTO);
+        return new ResponseEntity(conta, HttpStatus.CREATED);
     }
 
     @GetMapping

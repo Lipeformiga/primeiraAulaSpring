@@ -17,9 +17,9 @@ public class ContaService {
     private ContaRepository contaRepository;
 
 
-    public void criarConta(ContaPostRequestDTO contaDTO) {
+    public Conta criarConta(ContaPostRequestDTO contaDTO) {
         Conta conta = contaDTO.convert();
-        contaRepository.save(conta);
+        return contaRepository.save(conta);
     }
 
     public List<Conta> buscarContas() {
