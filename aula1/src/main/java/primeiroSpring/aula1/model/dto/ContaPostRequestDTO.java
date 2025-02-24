@@ -1,11 +1,12 @@
 package primeiroSpring.aula1.model.dto;
 
 import jakarta.validation.constraints.*;
+import primeiroSpring.aula1.model.entity.Cliente;
 import primeiroSpring.aula1.model.entity.Conta;
 
 public record ContaPostRequestDTO (
-        @NotBlank
-        String titular,
+        @NotNull
+        Cliente titular,
         @Positive @NotNull
         Integer numero,
         @PositiveOrZero

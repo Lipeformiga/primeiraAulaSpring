@@ -13,6 +13,7 @@ import primeiroSpring.aula1.model.dto.ContaPostRequestDTO;
 import primeiroSpring.aula1.model.entity.Conta;
 import primeiroSpring.aula1.service.ContaService;
 
+import java.sql.SQLException;
 import java.util.List;
 
 //@Component é uma das anotações que identificam uma classe como a @Service e a @RestController mas generico
@@ -30,11 +31,9 @@ public class ContaController {
     }
 
     @PostMapping
-    public ResponseEntity<Conta> cadastrarConta(@RequestBody @Valid ContaPostRequestDTO contaDTO){
-        // tirar duvida se colocar o @HttpStatus la em cima é igual a como ta ai e se colocar
-        // o httpStatus em cima sempre daria aquele status
-        Conta conta = contaService.criarConta(contaDTO);
-        return new ResponseEntity(conta, HttpStatus.CREATED);
+    @ResponseStatus(HttpStatus.CREATED)
+    public Conta cadastrarConta(@RequestBody @Valid ContaPostRequestDTO contaDTO){
+        return contaService.criarConta(contaDTO);
     }
 
     @GetMapping

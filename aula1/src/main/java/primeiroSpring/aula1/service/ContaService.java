@@ -16,7 +16,6 @@ public class ContaService {
 
     private ContaRepository contaRepository;
 
-
     public Conta criarConta(ContaPostRequestDTO contaDTO) {
         Conta conta = contaDTO.convert();
         return contaRepository.save(conta);
