@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import primeiroSpring.aula1.model.dto.ClientePostRequestDTO;
+import primeiroSpring.aula1.model.dto.ClientePutRequestDTO;
 import primeiroSpring.aula1.model.entity.Cliente;
 import primeiroSpring.aula1.service.ClienteService;
 
@@ -23,7 +24,7 @@ public class ClienteController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Cliente editar(@RequestBody @Valid ClientePostRequestDTO clienteDTO,
+    public Cliente editar(@RequestBody @Valid ClientePutRequestDTO clienteDTO,
                           @PathVariable Integer id){
         return service.editar(clienteDTO, id);
     }
