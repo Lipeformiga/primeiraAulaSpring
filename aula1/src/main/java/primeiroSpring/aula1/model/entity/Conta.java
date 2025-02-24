@@ -3,6 +3,8 @@ package primeiroSpring.aula1.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Data
 @Builder
@@ -22,10 +24,8 @@ public class Conta {
     private Double saldo;
     @NonNull
     private Double limite;
-    @NonNull
-    @Column(nullable = false)
-    @ManyToOne
-    private Cliente titular;
+    @ManyToMany(mappedBy = "contas")
+    private List<Cliente> titulares;
 
 //    public static ContaBuilder builder(){
 //        return new ContaBuilder();
