@@ -21,7 +21,6 @@ public class Cliente {
     private Integer id;
     private String nome;
     private Long cpf;
-    @ManyToMany
-    @JoinTable(name = "tb_cliente_conta", joinColumns = @JoinColumn(name = "cliente_id"), inverseJoinColumns = @JoinColumn(name = "conta_id"))
+    @OneToMany(mappedBy = "titular")
     private List<Conta> contas;
 }

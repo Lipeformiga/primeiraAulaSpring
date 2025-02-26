@@ -8,13 +8,13 @@ import java.util.List;
 
 public record ContaPostRequestDTO (
         @NotNull
-        List<Cliente> titular,
+        Cliente titular,
         @Positive @NotNull
         Integer numero,
         @PositiveOrZero
         Double limite){
 
     public Conta convert() {
-        return Conta.builder().titulares(titular).numero(numero).limite(limite).build();
+        return Conta.builder().titular(titular).numero(numero).limite(limite).build();
     }
 }

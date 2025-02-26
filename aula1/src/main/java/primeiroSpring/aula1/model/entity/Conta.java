@@ -24,8 +24,8 @@ public class Conta {
     private Double saldo;
     @NonNull
     private Double limite;
-    @ManyToMany(mappedBy = "contas")
-    private List<Cliente> titulares;
+    @ManyToOne
+    private Cliente titular;
 
 //    public static ContaBuilder builder(){
 //        return new ContaBuilder();
