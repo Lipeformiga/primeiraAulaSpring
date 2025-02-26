@@ -7,13 +7,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import primeiroSpring.aula1.model.dto.ContaPostRequestDTO;
+import primeiroSpring.aula1.model.dto.conta.ContaGetResponseDTO;
+import primeiroSpring.aula1.model.dto.conta.ContaPostRequestDTO;
 import primeiroSpring.aula1.model.entity.Conta;
 import primeiroSpring.aula1.service.ContaService;
 
-import java.sql.SQLException;
 import java.util.List;
 
 //@Component é uma das anotações que identificam uma classe como a @Service e a @RestController mas generico
@@ -53,8 +52,9 @@ public class ContaController {
     }
 
     @GetMapping("/{id}")
-    public Conta buscarContaPorId(@PathVariable Integer id){
-        return contaService.buscarConta(id);
+    public ContaGetResponseDTO buscarContaPorId(@PathVariable Integer id){
+        Conta conta = contaService.buscarConta(id);
+        return conta.convert();
     }
 
     @DeleteMapping("/{id}")

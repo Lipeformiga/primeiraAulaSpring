@@ -8,12 +8,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import primeiroSpring.aula1.model.dto.ClientePostRequestDTO;
-import primeiroSpring.aula1.model.dto.ClientePutRequestDTO;
+import primeiroSpring.aula1.model.dto.cliente.ClientePostRequestDTO;
+import primeiroSpring.aula1.model.dto.cliente.ClientePutRequestDTO;
+import primeiroSpring.aula1.model.dto.cliente.ClienteResponseDTO;
 import primeiroSpring.aula1.model.entity.Cliente;
 import primeiroSpring.aula1.service.ClienteService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/cliente")
@@ -35,16 +34,18 @@ public class ClienteController {
         return service.editar(clienteDTO, id);
     }
 
-//    @PatchMapping("/{id}")
-//    @ResponseStatus(HttpStatus.OK)
-//    public Cliente alterarContas( @PathVariable Integer id, @RequestParam Integer idConta){
-//        return service.alterarConta(id, idConta);
-//    }
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Cliente alterarContas( @PathVariable Integer id, @RequestParam Integer idConta){
+        return service.alterarConta(id, idConta);
+    }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Cliente buscarCliente(@PathVariable Integer id){
-        return service.buscar(id);
+    public ClienteResponseDTO buscarCliente(@PathVariable Integer id){
+        Cliente cliente = service.buscar(id);
+        // falta arrumar pois ja tem convert no cliente mas ele faz outra coisa
+        return cliente.convert();
     }
 
     @GetMapping

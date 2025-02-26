@@ -1,14 +1,14 @@
-package primeiroSpring.aula1.model.dto;
+package primeiroSpring.aula1.model.dto.cliente;
 
 import primeiroSpring.aula1.model.entity.Cliente;
 import primeiroSpring.aula1.model.entity.Conta;
 
-import java.util.List;
+import java.util.Set;
 
 public record ClientePutRequestDTO(
         String nome,
         Long cpf,
-        List<Conta> contas
+        Set<Conta> contas
 ) {
     public Cliente convert() {
         return Cliente.builder().nome(this.nome).cpf(this.cpf).contas(this.contas).build();

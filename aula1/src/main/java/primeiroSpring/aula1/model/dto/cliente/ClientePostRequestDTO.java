@@ -1,4 +1,4 @@
-package primeiroSpring.aula1.model.dto;
+package primeiroSpring.aula1.model.dto.cliente;
 
 import primeiroSpring.aula1.model.entity.Cliente;
 

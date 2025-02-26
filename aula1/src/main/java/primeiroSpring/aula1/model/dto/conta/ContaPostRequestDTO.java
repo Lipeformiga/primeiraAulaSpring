@@ -1,10 +1,8 @@
-package primeiroSpring.aula1.model.dto;
+package primeiroSpring.aula1.model.dto.conta;
 
 import jakarta.validation.constraints.*;
 import primeiroSpring.aula1.model.entity.Cliente;
 import primeiroSpring.aula1.model.entity.Conta;
-
-import java.util.List;
 
 public record ContaPostRequestDTO (
         @NotNull

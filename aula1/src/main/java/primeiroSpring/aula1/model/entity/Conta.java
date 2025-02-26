@@ -2,8 +2,7 @@ package primeiroSpring.aula1.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
+import primeiroSpring.aula1.model.dto.conta.ContaGetResponseDTO;
 
 @Entity
 @Data
@@ -13,19 +12,24 @@ import java.util.List;
 @Table(name = "tb_conta")
 public class Conta {
 
-    @NonNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NonNull
     @Column(name = "numero_da_conta", nullable = false, unique = true)
     private Integer numero;
-    @NonNull
-    private Double saldo;
+    @Builder.Default
+    private Double saldo = 0.0;
     @NonNull
     private Double limite;
     @ManyToOne
     private Cliente titular;
+
+    public ContaGetResponseDTO convert() {
+        return new ContaGetResponseDTO(
+                this.id, this.numero, this.saldo,this.limite,this.titular.convert()
+        );
+    }
 
 //    public static ContaBuilder builder(){
 //        return new ContaBuilder();

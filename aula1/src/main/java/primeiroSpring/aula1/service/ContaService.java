@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import primeiroSpring.aula1.model.dto.ContaPostRequestDTO;
+import primeiroSpring.aula1.model.dto.conta.ContaPostRequestDTO;
 import primeiroSpring.aula1.model.entity.Conta;
 import primeiroSpring.aula1.repository.ContaRepository;
 

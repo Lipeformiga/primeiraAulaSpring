@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import primeiroSpring.aula1.model.dto.ExceptionHandlerResponseDTO;
+import primeiroSpring.aula1.model.exceptions.MesmoTitularException;
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
@@ -27,4 +28,9 @@ public class ControllerExceptionHandler {
         return new ExceptionHandlerResponseDTO(e.getMessage(), LocalDateTime.now());
     };
 
+    @ExceptionHandler(MesmoTitularException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionHandlerResponseDTO capturaDeErro(MesmoTitularException e){
+        return new ExceptionHandlerResponseDTO(e.getMessage(), LocalDateTime.now());
+    }
 }
