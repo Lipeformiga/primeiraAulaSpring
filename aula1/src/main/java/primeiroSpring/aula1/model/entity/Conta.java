@@ -2,7 +2,8 @@ package primeiroSpring.aula1.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import primeiroSpring.aula1.model.dto.conta.ContaGetResponseDTO;
+import primeiroSpring.aula1.model.dto.conta.ContaClienteResponseDTO;
+import primeiroSpring.aula1.model.dto.conta.ContaResponseDTO;
 
 @Entity
 @Data
@@ -25,10 +26,18 @@ public class Conta {
     @ManyToOne
     private Cliente titular;
 
-    public ContaGetResponseDTO convert() {
-        return new ContaGetResponseDTO(
+    public ContaResponseDTO convert() {
+        return new ContaResponseDTO(
                 this.id, this.numero, this.saldo,this.limite,this.titular.convert()
         );
+    }
+
+    public ContaClienteResponseDTO convertToContaClienteResponseDTO() {
+        return new ContaClienteResponseDTO(this.id,this.saldo,this.limite,this.numero);
+    }
+
+    public ContaResponseDTO convertToContaResponseDTO() {
+        return new ContaResponseDTO(this.id,this.numero,this.saldo,this.limite,this.titular.convert());
     }
 
 //    public static ContaBuilder builder(){

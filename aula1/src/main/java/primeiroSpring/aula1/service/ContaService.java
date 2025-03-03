@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import primeiroSpring.aula1.model.dto.conta.ContaPostRequestDTO;
+import primeiroSpring.aula1.model.dto.conta.ContaPutRequestDTO;
 import primeiroSpring.aula1.model.entity.Conta;
 import primeiroSpring.aula1.repository.ContaRepository;
 
@@ -38,7 +39,8 @@ public class ContaService {
         contaRepository.deleteById(id);
     }
 
-    public Conta atualizarConta(Conta conta,Integer id ) {
+    public Conta atualizarConta(Integer id, ContaPutRequestDTO contaDTO ) {
+        Conta conta = contaDTO.convert();
         conta.setId(id);
         return contaRepository.save(conta);
     }

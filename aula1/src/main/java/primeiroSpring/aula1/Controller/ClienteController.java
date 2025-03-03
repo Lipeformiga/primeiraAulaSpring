@@ -3,6 +3,7 @@ package primeiroSpring.aula1.Controller;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -14,6 +15,8 @@ import primeiroSpring.aula1.model.dto.cliente.ClienteResponseDTO;
 import primeiroSpring.aula1.model.entity.Cliente;
 import primeiroSpring.aula1.service.ClienteService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/cliente")
 @AllArgsConstructor
@@ -23,40 +26,47 @@ public class ClienteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente cadastro(@RequestBody @Valid ClientePostRequestDTO clienteDTO){
-        return service.cadastrar(clienteDTO);
+    public ClienteResponseDTO cadastro(@RequestBody @Valid ClientePostRequestDTO clienteDTO){
+        Cliente cliente = service.cadastrar(clienteDTO);
+        return cliente.convertoToClienteResponseDTO();
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Cliente editar(@RequestBody @Valid ClientePutRequestDTO clienteDTO,
+    public ClienteResponseDTO editar(@RequestBody @Valid ClientePutRequestDTO clienteDTO,
                           @PathVariable Integer id){
-        return service.editar(clienteDTO, id);
+        Cliente cliente = service.editar(clienteDTO, id);
+        return cliente.convertoToClienteResponseDTO();
     }
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Cliente alterarContas( @PathVariable Integer id, @RequestParam Integer idConta){
-        return service.alterarConta(id, idConta);
+    public ClienteResponseDTO alterarContas( @PathVariable Integer id, @RequestParam Integer idConta){
+        Cliente cliente = service.alterarConta(id, idConta);
+        return cliente.convertoToClienteResponseDTO();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ClienteResponseDTO buscarCliente(@PathVariable Integer id){
         Cliente cliente = service.buscar(id);
-        // falta arrumar pois ja tem convert no cliente mas ele faz outra coisa
-        return cliente.convert();
+        return cliente.convertoToClienteResponseDTO();
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Page<Cliente> buscarClientes(@PageableDefault(
+    public Page<ClienteResponseDTO> buscarClientes(@PageableDefault(
             size = 20,
             sort = "nome",
             direction = Sort.Direction.DESC,
             page = 0
     ) Pageable pageable){
-        return service.buscar(pageable);
+
+        Page<Cliente> clientePage = service.buscar(pageable);
+        List<ClienteResponseDTO> contentList = clientePage.getContent().stream().map(
+                Cliente::convertoToClienteResponseDTO).toList();
+
+        return new PageImpl<>(contentList, clientePage.getPageable(), clientePage.getTotalElements());
     }
 
     @DeleteMapping("/{id}")
