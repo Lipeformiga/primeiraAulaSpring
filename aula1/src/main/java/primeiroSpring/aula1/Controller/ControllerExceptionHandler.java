@@ -17,10 +17,10 @@ import java.util.NoSuchElementException;
 public class ControllerExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ExceptionHandlerResponseDTO capturaDeErro(Exception e){
-
-        return new ExceptionHandlerResponseDTO(e.getMessage(), LocalDateTime.now());
-    };
+    public ExceptionHandlerResponseDTO handleGenericException(Exception e) {
+        String mensagem = e.getMessage() != null ? e.getMessage() : "Erro interno no servidor";
+        return new ExceptionHandlerResponseDTO(mensagem, LocalDateTime.now());
+    }
     // esse é pra pegar erro do usuário
     @ExceptionHandler(NoSuchElementException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)

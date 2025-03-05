@@ -2,12 +2,12 @@ package primeiroSpring.aula1.model.dto.cliente;
 
 import primeiroSpring.aula1.model.dto.conta.ContaClienteResponseDTO;
 
-import java.util.Set;
+import java.util.List;
 
 public record ClienteResponseDTO(
         Integer id,
         String nome,
         Long cpf,
-        Set<ContaClienteResponseDTO> contas
+        List<ContaClienteResponseDTO> contas
 ) {
 }

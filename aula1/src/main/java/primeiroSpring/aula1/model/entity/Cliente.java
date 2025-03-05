@@ -27,31 +27,48 @@ public class Cliente {
     private String nome;
     private Long cpf;
     @OneToMany(mappedBy = "titular")
-    private Set<Conta> contas;
+    private List<Conta> contas;
+
 
     public void addConta(@NotNull Conta conta) {
-        this.contas.add(conta);
+        if (!contas.contains(conta)) {
+            contas.add(conta);
+        } else {
+            throw new RuntimeException();
+        }
+
     }
 
     public void removerConta(@NotNull Conta conta) {
-        this.contas.remove(conta);
+
+        if (!contas.contains(conta)) {
+            throw new RuntimeException();
+
+        } else {
+            contas.remove(conta);
+        }
     }
 
-    public Set<Conta> getContas() {
-        if(this.contas != null) {
-            return Collections.unmodifiableSet(this.contas);
+    public List<Conta> getContas() {
+        if (this.contas != null) {
+            return this.contas;
         }
-        return new HashSet<>();
+        return new ArrayList<>();
     }
 
     public ClienteContaGetResponseDTO convert() {
         return new ClienteContaGetResponseDTO(
-                this.id,this.nome,this.cpf
+                this.id, this.nome, this.cpf
         );
     }
 
     public ClienteResponseDTO convertoToClienteResponseDTO() {
-        Set<ContaClienteResponseDTO> contasDTO = this.contas.stream().map(Conta::convertToContaClienteResponseDTO).collect(Collectors.toSet());
-        return new ClienteResponseDTO(this.id,this.nome,this.cpf, contasDTO);
+
+        if (this.contas != null) {
+            List<ContaClienteResponseDTO> contasDTO = this.contas.stream().map(Conta::convertToContaClienteResponseDTO).toList();
+            return new ClienteResponseDTO(this.id, this.nome, this.cpf, contasDTO);
+        }
+        return new ClienteResponseDTO(this.id, this.nome, this.cpf, null);
+
     }
 }
