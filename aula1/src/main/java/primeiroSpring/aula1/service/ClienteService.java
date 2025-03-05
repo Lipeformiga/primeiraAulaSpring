@@ -4,6 +4,10 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,8 +24,9 @@ import java.util.NoSuchElementException;
 @AllArgsConstructor
 public class ClienteService {
 
-    private ClienteRepository repository;
-    private final ContaService contaService;
+    private final ClienteRepository repository;
+    private ContaService contaService;
+    private final ModelMapper modelMapper;
 
     public Cliente cadastrar(@Valid ClientePostRequestDTO clienteDTO) {
         Cliente cliente = clienteDTO.convert();
@@ -31,10 +36,12 @@ public class ClienteService {
     public Cliente editar(@Valid ClientePutRequestDTO clienteDTO, @NotNull @Positive Integer id) {
 
         if (repository.existsById(id)) {
-            Cliente cliente = clienteDTO.convert();
-            // tem que colocar pois o cliente ainda não tem id:
-            cliente.setId(id);
-            return repository.save(cliente);
+            Cliente clienteAtual = buscar(id);
+            Cliente clienteEditado = clienteDTO.convert();
+            // tirar duvida do postman que o put de cliente ta danndo errado para adicionar ou alterar contas
+            // Perguntar o que isso ta fazendo:
+            modelMapper.map(clienteEditado, clienteAtual);
+            return repository.save(clienteAtual);
         }
         throw new NoSuchElementException();
     }

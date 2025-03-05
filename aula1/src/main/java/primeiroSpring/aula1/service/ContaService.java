@@ -1,24 +1,33 @@
 package primeiroSpring.aula1.service;
 
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import primeiroSpring.aula1.model.dto.conta.ContaPostRequestDTO;
 import primeiroSpring.aula1.model.dto.conta.ContaPutRequestDTO;
+import primeiroSpring.aula1.model.entity.Cliente;
 import primeiroSpring.aula1.model.entity.Conta;
 import primeiroSpring.aula1.repository.ContaRepository;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ContaService {
 
-    private ContaRepository contaRepository;
+    @NonNull
+    private final ContaRepository contaRepository;
+    @Lazy @Autowired
+    private ClienteService clienteService;
 
     public Conta criarConta(ContaPostRequestDTO contaDTO) {
-        Conta conta = contaDTO.convert();
+        Cliente cliente = clienteService.buscar(contaDTO.idtitular());
+        Conta conta = contaDTO.convert(cliente);
         return contaRepository.save(conta);
     }
 
@@ -40,9 +49,12 @@ public class ContaService {
     }
 
     public Conta atualizarConta(Integer id, ContaPutRequestDTO contaDTO ) {
-        Conta conta = contaDTO.convert();
-        conta.setId(id);
-        return contaRepository.save(conta);
+        Conta contaAntiga = buscarConta(id);
+        Conta contaEditada = contaDTO.convert();
+        contaEditada.setId(id);
+        contaEditada.setNumero(contaAntiga.getNumero());
+        contaEditada.setSaldo(contaAntiga.getSaldo());
+        return contaRepository.save(contaEditada);
     }
 
     public Conta alterarLimite(Integer id, Double limite) {

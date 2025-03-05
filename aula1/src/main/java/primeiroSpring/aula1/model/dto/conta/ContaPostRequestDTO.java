@@ -6,13 +6,13 @@ import primeiroSpring.aula1.model.entity.Conta;
 
 public record ContaPostRequestDTO (
         @NotNull
-        Cliente titular,
+        Integer idtitular,
         @Positive @NotNull
         Integer numero,
         @PositiveOrZero
         Double limite){
 
-    public Conta convert() {
-        return Conta.builder().titular(titular).numero(numero).limite(limite).build();
+    public Conta convert(Cliente cliente) {
+        return Conta.builder().titular(cliente).numero(numero).limite(limite).build();
     }
 }

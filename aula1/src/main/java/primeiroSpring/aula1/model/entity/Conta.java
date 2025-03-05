@@ -16,7 +16,6 @@ public class Conta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NonNull
     @Column(name = "numero_da_conta", nullable = false, unique = true)
     private Integer numero;
     @Builder.Default
