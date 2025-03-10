@@ -54,7 +54,7 @@ public class ClienteService {
         } else if (conta.getTitular() == null) {
                 cliente.addConta(conta);
         } else {
-            throw new MesmoTitularException();
+            throw new RuntimeException("A conta possui outro titular");
         }
         return repository.save(cliente);
     }

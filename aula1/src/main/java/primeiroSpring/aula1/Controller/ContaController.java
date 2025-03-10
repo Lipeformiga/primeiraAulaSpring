@@ -63,6 +63,7 @@ public class ContaController {
         return conta.convert();
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void removerConta(@PathVariable Integer id){
         contaService.deletarConta(id);

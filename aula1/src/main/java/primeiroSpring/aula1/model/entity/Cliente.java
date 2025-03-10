@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 @Data
 @Builder
 @Table(name = "tb_cliente")
+//@Inheritance(strategy = InheritanceType.JOINED)
 public class Cliente {
 
     @Id
@@ -33,6 +34,7 @@ public class Cliente {
     public void addConta(@NotNull Conta conta) {
         if (!contas.contains(conta)) {
             contas.add(conta);
+            conta.setTitular(this);
         } else {
             throw new RuntimeException();
         }
@@ -44,9 +46,9 @@ public class Cliente {
         if (!contas.contains(conta)) {
             throw new RuntimeException();
 
-        } else {
-            contas.remove(conta);
         }
+        this.contas.remove(conta);
+        contas.remove(conta);
     }
 
     public List<Conta> getContas() {
