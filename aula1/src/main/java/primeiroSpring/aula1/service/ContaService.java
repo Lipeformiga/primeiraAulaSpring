@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import primeiroSpring.aula1.model.dto.conta.ContaPostRequestDTO;
 import primeiroSpring.aula1.model.dto.conta.ContaPutRequestDTO;
@@ -24,6 +26,17 @@ public class ContaService {
     private final ContaRepository contaRepository;
     @Lazy @Autowired
     private ClienteService clienteService;
+
+    private Specification<Conta> filtrarTexto(String texto){
+        return (root, query, criteriaBuilder)
+                -> criteriaBuilder.or(criteriaBuilder.like(root.get("nome"), "%"+texto+"%"),
+                criteriaBuilder.like(root.get("descricao"), "%"+texto+"%"));
+    }
+
+//    private Specification<Conta> filtrarValor(Double valor){
+//        return (root, query, criteriaBuilder)
+//                -> criteriaBuilder.or(criteriaBuilder.less);
+//    }
 
     public Conta criarConta(ContaPostRequestDTO contaDTO) {
         Cliente cliente = clienteService.buscar(contaDTO.idtitular());
